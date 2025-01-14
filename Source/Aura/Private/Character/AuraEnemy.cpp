@@ -14,7 +14,7 @@ AAuraEnemy::AAuraEnemy()
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbiltySystemComponent");
 	AbilitySystemComponent -> SetIsReplicated(true);
 
-	AttributeSet = CreateDefaultSubObject<UAuraAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighlightActor()
