@@ -10,16 +10,18 @@ public class Aura : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayTags", "GameplayTasks" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags", "GameplayTasks" });
 
         PublicIncludePaths.AddRange(new string[]
 {
-            "Aura/Public"
-});
+            "Aura/Public",
+
+            "Aura/Public/AbilitySystem"  // Add this line for your AbilitySystem includes
+    });
 
         PrivateIncludePaths.AddRange(new string[]
         {
-            "Aura/Private"
+            "Aura/Private",
         });
  
 		// Uncomment if you are using Slate UI
