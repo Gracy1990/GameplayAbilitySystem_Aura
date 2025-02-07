@@ -11,6 +11,8 @@ public class Aura : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags", "GameplayTasks" });
+        
+		PublicIncludePaths.AddRange(new string[] { "Aura/Public/UI/Widget" });
 
         PublicIncludePaths.AddRange(new string[]
 {
