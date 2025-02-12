@@ -6,6 +6,8 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Delegates/DelegateCombinations.h"
 #include "UI\HUD\AuraHUD.h"
+#include "Engine/DataTable.h"
+#include "GameplayTagContainer.h"
 #include "OverlayWidgetController.generated.h"
 
 class UAuraUserWidget;
@@ -61,10 +63,20 @@ public:
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
-	TObjectPtr<UDataTable> MesageWidgetDataTable;
+	TObjectPtr<UDataTable> MessageWidgetDataTable;
 
 	void HealthChanged(const FOnAttributeChangeData& Data) const;
 	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
 	void ManaChanged(const FOnAttributeChangeData& Data) const;
 	void MaxManaChanged(const FOnAttributeChangeData& Data) const;
+
+	template<typename T>
+	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 };
+
+template<typename T>
+T* UOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag)
+{
+	return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
+	
+}
