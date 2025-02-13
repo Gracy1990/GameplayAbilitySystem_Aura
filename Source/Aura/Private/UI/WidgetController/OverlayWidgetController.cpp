@@ -3,7 +3,25 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraAttributeSet.h"
 #include "AuraAbilitySystemComponent.h"
+#include "UObject/ConstructorHelpers.h"
 
+// Constructor: Load the DataTable asset
+UOverlayWidgetController::UOverlayWidgetController()
+{
+	// Replace the path below with your actual DataTable asset path
+	static ConstructorHelpers::FObjectFinder<UDataTable> DataTableRef(
+		TEXT("/Game/Blueprints/UI/Data/DT_MessageWidgetData.DT_MessageWidgetData")
+	);
+
+	if (DataTableRef.Succeeded())
+	{
+		MessageWidgetDataTable = DataTableRef.Object;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load DataTable at /Game/Blueprints/UI/Data/DT_MessageWidgetData.DT_MessageWidgetData"));
+	}
+}
 void UOverlayWidgetController::BroadcastInitialValues()
 {
 	if (!AttributeSet) return;
@@ -35,18 +53,28 @@ void UOverlayWidgetController::BindcallbacksToDependencies()
 		AuraAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
 
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags) 
+		[this](const FGameplayTagContainer& AssetTags)
 		{
+			// Request the "Message" tag once.
+			FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
 			for (const FGameplayTag& Tag : AssetTags)
 			{
-				const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
-
-				FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				// Check if the current Tag matches the "Message" tag.
+				if (Tag.MatchesTag(MessageTag))
+				{
+					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+					if (Row)
+					{
+						MessageWidgetRowDelegate.Broadcast(*Row);
+					}
+					else
+					{
+						UE_LOG(LogTemp, Warning, TEXT("No matching row found for Tag: %s"), *Tag.ToString());
+					}
+				}
 			}
 		}
 	);
-
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
