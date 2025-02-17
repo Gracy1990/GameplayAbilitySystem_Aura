@@ -64,9 +64,9 @@ public:
 	* Primary Attributes
 	*/
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strenght, Category = "Primary Attributes")
-	FGameplayAttributeData Strenght;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strenght);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
 	FGameplayAttributeData Intelligence;
@@ -152,7 +152,7 @@ public:
 
 
 	UFUNCTION()
-	void OnRep_Strenght(const FGameplayAttributeData& OldStrenght) const;
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
 
 	UFUNCTION()
 	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;

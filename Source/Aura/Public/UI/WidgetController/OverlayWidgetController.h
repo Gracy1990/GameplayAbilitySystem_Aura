@@ -3,15 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Delegates/DelegateCombinations.h"
-#include "UI/HUD/AuraHUD.h"
 #include "Engine/DataTable.h"
 #include "GameplayTagContainer.h"
 #include "OverlayWidgetController.generated.h"
 
+
+class AAuraHUD;
+
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
+
 {
 	GENERATED_BODY()
 
@@ -31,7 +35,6 @@ struct FUIWidgetRow : public FTableRowBase
 class UAuraUserWidget;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
 /**

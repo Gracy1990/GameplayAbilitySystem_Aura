@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
-#include "UI\WidgetController\OverlayWidgetController.h"
-#include "UI\WidgetController\AttributeMenuWidgetController.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AuraHUD.generated.h"
 
 class UAttributeWidgetController;
