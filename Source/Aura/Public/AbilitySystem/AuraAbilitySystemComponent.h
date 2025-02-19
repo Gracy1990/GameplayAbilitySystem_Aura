@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
+#include "AuraAbilitySystemLibrary.h"
 #include "AuraAbilitySystemComponent.generated.h"
+
 
 
 // Delegate taking a reference to a FGameplayTagContainer (AssetTags)
@@ -23,6 +25,11 @@ public:
 	void AbilityActorInfoSet();
 
 	FEffectAssetTags EffectAssetTags;
+
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 
 protected:
 
