@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
-#include "Actor/AuraProjectile.h"
+#include "GameplayEffectTypes.h"
 #include "AuraProjectileSpell.generated.h"
 
+class AAuraProjectile;
+class UGameplayEffect;
 
 
 /**
@@ -26,5 +29,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile>ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 };
