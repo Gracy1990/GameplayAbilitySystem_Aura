@@ -34,6 +34,11 @@ void AAuraCharacterBase::BeginPlay()
 	
 }
 
+int32 AAuraCharacterBase::GetPlayerLevel()
+{
+	return 1;
+}
+
 FVector AAuraCharacterBase::GetCombatSocketLocation()
 {
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
