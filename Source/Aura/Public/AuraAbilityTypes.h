@@ -1,9 +1,6 @@
 #pragma once
 
-#include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
-#include "Serialization/Archive.h"
-#include "Net/UnrealNetwork.h"
 #include "AuraAbilityTypes.generated.h"
 
 
