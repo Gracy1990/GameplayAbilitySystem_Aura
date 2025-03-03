@@ -8,8 +8,6 @@
 #include "AbilitySystemTestAttributeSet.h"
 #include "AuraPlayerState.generated.h"
 
-
-
 class UAbilitySystemComponent;
 class UAttributeSet;
 
