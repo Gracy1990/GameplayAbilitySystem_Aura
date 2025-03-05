@@ -1,14 +1,13 @@
 // Copyright Maniform Studio
 
-
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Animation/AnimMontage.h"
-
-
+#include "Engine/NavigationObjectBase.h"
+#include "NavigationTestingActor.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -24,7 +23,6 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
-
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -41,7 +39,6 @@ void AAuraCharacterBase::Die()
 	MulticastHandleDeath();
 }
 
-
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
 	Weapon->SetSimulatePhysics(true);
@@ -55,22 +52,21 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
-	
 }
 
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
-
 int32 AAuraCharacterBase::GetPlayerLevel()
 {
-	return 1;
+	return 1; 
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation()
+
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
 {
+	check(Weapon)
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 

@@ -1,14 +1,11 @@
 // Copyright Maniform Studio
-
 #pragma once
-
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemComponent.h"
 #include "AuraCharacterBase.generated.h"
-
 
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -21,12 +18,8 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 {
 	GENERATED_BODY()
 
-
 public:
 	AAuraCharacterBase();
-
-	virtual int32 GetPlayerLevel() override;
-
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
@@ -39,13 +32,15 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual int32 GetPlayerLevel() override;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
