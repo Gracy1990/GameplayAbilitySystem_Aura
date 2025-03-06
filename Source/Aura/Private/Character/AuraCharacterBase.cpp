@@ -8,6 +8,8 @@
 #include "Animation/AnimMontage.h"
 #include "Engine/NavigationObjectBase.h"
 #include "NavigationTestingActor.h"
+#include "AuraGameplayTags.h"
+
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -65,10 +67,22 @@ int32 AAuraCharacterBase::GetPlayerLevel()
 }
 
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon)
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	return FVector();
 }
 
 bool AAuraCharacterBase::IsDead_Implementation() const
