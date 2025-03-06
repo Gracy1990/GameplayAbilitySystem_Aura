@@ -52,7 +52,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 	for (auto& Pair : DamageTypes)
 	{
-		const float ScaledDamage = Pair.Value.GetValueAtLevel(10);
+		const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
 		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Pair.Key, ScaledDamage);
 	}
 
