@@ -21,7 +21,8 @@ FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontageFromArray(const
 {
 	if (TaggedMontages.Num() > 0)
 	{
-		const int32 Selection = FMath::FRandRange(0.f, TaggedMontages.Num() - 1.f);
+		const int32 Selection = FMath::FRandRange(0.f, TaggedMontages.Num() - 1.f
+		);
 		return TaggedMontages[Selection];
 	}
 	return FTaggedMontage();
