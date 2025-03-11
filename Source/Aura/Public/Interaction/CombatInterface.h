@@ -35,8 +35,6 @@ class UCombatInterface : public UInterface
 	GENERATED_BODY()
 };
 
-
-
 /**
  * 
  */
@@ -73,5 +71,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FTaggedMontage GetTaggedMontageByTag(const FGameplayTag& MontageTag);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	int32 GetMinionCount();
 
 };
