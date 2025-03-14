@@ -3,11 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "UI/WidgetController/AuraWidgetController.h"
-#include "Delegates/DelegateCombinations.h"
-#include "Engine/DataTable.h"
-#include "GameplayTagContainer.h"
 #include "OverlayWidgetController.generated.h"
 
 
@@ -34,6 +30,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 class UAuraUserWidget;
 class UAbilityInfo;
+class UAuraAbilitySystemComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
@@ -78,6 +75,8 @@ protected:
 
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent);
 };
 
 template <typename T>

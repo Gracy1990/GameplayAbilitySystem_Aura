@@ -2,7 +2,6 @@
 
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraAttributeSet.h"
-
 #include "AuraAbilitySystemComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -13,7 +12,6 @@ UOverlayWidgetController::UOverlayWidgetController()
 	static ConstructorHelpers::FObjectFinder<UDataTable> DataTableRef(
 		TEXT("/Game/Blueprints/UI/Data/DT_MessageWidgetData.DT_MessageWidgetData")
 	);
-
 	if (DataTableRef.Succeeded())
 	{
 		MessageWidgetDataTable = DataTableRef.Object;
@@ -34,7 +32,6 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
 }
-
 void UOverlayWidgetController::BindcallbacksToDependencies()
 {
 	if (!AttributeSet || !AbilitySystemComponent) return;
@@ -48,7 +45,6 @@ void UOverlayWidgetController::BindcallbacksToDependencies()
 				OnHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
-
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetMaxHealthAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data)
@@ -56,44 +52,54 @@ void UOverlayWidgetController::BindcallbacksToDependencies()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetManaAttribute()).AddLambda(
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		AuraAttributeSet->GetManaAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data)
 			{
 				OnManaChanged.Broadcast(Data.NewValue);
 			}
 		);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute()).AddLambda(
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		AuraAttributeSet->GetMaxManaAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data)
 			{
 				OnMaxManaChanged.Broadcast(Data.NewValue);
 			}
 		);
-
-	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags)
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (AuraASC->bStartupAbilitiesGiven)
 		{
-			// Request the "Message" tag once.
-			FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-			for (const FGameplayTag& Tag : AssetTags)
+			OnInitializeStartupAbilities(AuraASC);
+		}
+		else
+		{
+			AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+		}
+
+		
+		AuraASC->EffectAssetTags.AddLambda(
+			[this](const FGameplayTagContainer& AssetTags)
 			{
-				// Check if the current Tag matches the "Message" tag.
-				if (Tag.MatchesTag(MessageTag))
+				for (const FGameplayTag& Tag : AssetTags)
 				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-					if (Row)
+					FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+					if (Tag.MatchesTag(MessageTag))
 					{
-						MessageWidgetRowDelegate.Broadcast(*Row);
-					}
-					else
-					{
-						UE_LOG(LogTemp, Warning, TEXT("No matching row found for Tag: %s"), *Tag.ToString());
+						const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+						MessageWidgetRowDelegate.Broadcast(*Row);	
 					}
 				}
 			}
-		}
-	);
+		);
+	}
+
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)
+{
+	//TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
+	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
+
+
 }
