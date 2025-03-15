@@ -4,28 +4,17 @@
 #include "AuraAttributeSet.h"
 #include "AuraAbilitySystemComponent.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Player/AuraPlayerState.h"
 #include "Data/AbilityInfo.h"
+#include "Data/LevelUpInfo.h" // Ensure this is the correct path
 
-// Constructor: Load the DataTable asset
+
 UOverlayWidgetController::UOverlayWidgetController()
 {
-	// Replace the path below with your actual DataTable asset path
-	static ConstructorHelpers::FObjectFinder<UDataTable> DataTableRef(
-		TEXT("/Game/Blueprints/UI/Data/DT_MessageWidgetData.DT_MessageWidgetData")
-	);
-	if (DataTableRef.Succeeded())
-	{
-		MessageWidgetDataTable = DataTableRef.Object;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Failed to load DataTable at /Game/Blueprints/UI/Data/DT_MessageWidgetData.DT_MessageWidgetData"));
-	}
 }
+
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-	if (!AttributeSet) return;
-
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
 	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
@@ -35,8 +24,9 @@ void UOverlayWidgetController::BroadcastInitialValues()
 }
 void UOverlayWidgetController::BindcallbacksToDependencies()
 {
-	if (!AttributeSet || !AbilitySystemComponent) return;
-
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+	
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
@@ -111,4 +101,27 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 		AbilityInfoDelegate.Broadcast(Info);
 	});
 	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
+}
+
+void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
+{
+	const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	const ULevelUpInfo* LevelUpInfo = AuraPlayerState->LevelUpInfo;
+	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo, Please fill out AuraPlayerState Blueprint"));
+
+	const int32 Level = LevelUpInfo->FindLevelForXP(NewXP);
+	const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num();
+
+	if (Level <= MaxLevel && Level > 0)
+	{
+		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level].LevelUpRequirement;
+		const int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInformation[Level - 1].LevelUpRequirement;
+
+		const int32 DeltaLevelRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
+		const int32 XPForThisLevel = NewXP - PreviousLevelUpRequirement;
+
+		const float XPBarPercent = static_cast<float> (XPForThisLevel) / static_cast<float>(DeltaLevelRequirement);
+
+		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
+	}
 }
