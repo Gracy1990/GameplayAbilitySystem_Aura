@@ -21,6 +21,8 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 
+	CharacterClass = ECharacterClass::ElementList;
+
 }
 
 void AAuraCharacter::PossessedBy(AController* NewController)
