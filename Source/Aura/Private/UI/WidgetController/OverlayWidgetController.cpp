@@ -67,8 +67,13 @@ void UOverlayWidgetController::BindcallbacksToDependencies()
 		{
 			AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
 		}
-
-		
+		//Added (CHATGPT start)
+		if (!MessageWidgetDataTable)
+		{
+			UE_LOG(LogTemp, Error, TEXT("MessageWidgetDataTable is NULL in OverlayWidgetController!"));
+			return;
+		}
+		//Added (CHATGPT end)
 		AuraASC->EffectAssetTags.AddLambda(
 			[this](const FGameplayTagContainer& AssetTags)
 			{
