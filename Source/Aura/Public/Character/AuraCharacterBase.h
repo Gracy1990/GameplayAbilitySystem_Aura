@@ -48,7 +48,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
