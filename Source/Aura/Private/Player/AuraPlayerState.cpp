@@ -76,7 +76,7 @@ void AAuraPlayerState::OnRep_SpellPoints(int32 OldSpellPoints)
 	OnSpellPointsChangedDelegate.Broadcast(SpellPoints);
 }
 
-void AAuraPlayerState::AddToAttributePoint(int32 InPoints)
+void AAuraPlayerState::AddToAttributePoints(int32 InPoints)
 {
 	AttributePoints += InPoints;
 }
