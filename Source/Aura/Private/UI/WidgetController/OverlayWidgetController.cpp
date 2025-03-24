@@ -16,6 +16,11 @@ UOverlayWidgetController::UOverlayWidgetController()
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
+	if (!GetAuraAS()) // Added ( Null check for safety)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OverlayWidgetController: AttributeSet is NULL!"));
+		return;
+	}
 	OnHealthChanged.Broadcast(GetAuraAS()->GetHealth());
 	OnMaxHealthChanged.Broadcast(GetAuraAS()->GetMaxHealth());
 	OnManaChanged.Broadcast(GetAuraAS()->GetMana());
@@ -23,6 +28,12 @@ void UOverlayWidgetController::BroadcastInitialValues()
 }
 void UOverlayWidgetController::BindcallbacksToDependencies()
 {
+	if (!GetAuraPS() || !AbilitySystemComponent) // Added ( Null check for player state and ASC)
+	{
+		UE_LOG(LogTemp, Error, TEXT("OverlayWidgetController: PlayerState or ASC is NULL!"));
+		return;
+	}
+
 	GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
 		[this](int32 NewLevel)

@@ -64,7 +64,7 @@ UAuraAbilitySystemComponent* UAuraWidgetController::GetAuraASC()
 {
 	if (AuraAbilitySystemComponent == nullptr)
 	{
-		AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AuraAbilitySystemComponent);
+		AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(GetAuraPS()->GetAbilitySystemComponent());
 	}
 	return AuraAbilitySystemComponent;
 }
@@ -73,7 +73,7 @@ UAuraAttributeSet* UAuraWidgetController::GetAuraAS()
 {
 	if (AuraAttributeSet == nullptr)
 	{
-		AuraAttributeSet = Cast<UAuraAttributeSet>(AuraAttributeSet);
+		AuraAttributeSet = Cast<UAuraAttributeSet>(GetAuraPS()->GetAttributeSet());
 	}
 	return AuraAttributeSet;
 }
