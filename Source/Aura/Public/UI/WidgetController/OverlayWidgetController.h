@@ -92,7 +92,6 @@ T* UOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, const F
 		UE_LOG(LogTemp, Error, TEXT("DataTable is null in GetDataTableRowByTag!"));
 		return nullptr;
 	}
-
 	return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
 }
 
