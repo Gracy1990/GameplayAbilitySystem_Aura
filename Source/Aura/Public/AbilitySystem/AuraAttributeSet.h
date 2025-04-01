@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayEffectExtension.h"
 #include "AuraAttributeSet.generated.h"
@@ -13,6 +13,8 @@
     GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
     GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
     GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+class UTargetTagsComponent;
 
 USTRUCT(BlueprintType)
 struct FEffectProperties
@@ -240,6 +242,9 @@ public:
 
 private:
 
+	void HandleIncomingDamage(const FEffectProperties Props);
+	void HandleIncomingXP(const FEffectProperties Props);
+	void Debuff(const FEffectProperties& Props);
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const;
 	void SendXPEvent(const FEffectProperties& Props);
