@@ -14,6 +14,7 @@
 
 
 
+
 AAuraCharacter::AAuraCharacter()
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
@@ -167,6 +168,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();
+	OnASCRegistered.Broadcast(AbilitySystemComponent);
 
 	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 	{

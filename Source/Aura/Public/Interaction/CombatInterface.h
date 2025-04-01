@@ -6,10 +6,19 @@
 #include "UObject/Interface.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "Delegates/DelegateCombinations.h"
+#include "GameFramework/Character.h" // If dealing with a Character class
+#include "AbilitySystemComponent.h"
 #include "CombatInterface.generated.h"
 
+
+class UAbilitySystemComponent;
 class UNiagaraSystem;
 class UAnimMontage;
+class USoundBase;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -82,4 +91,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	ECharacterClass GetCharacterClass();
+
+	virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
+	virtual FOnDeath GetOnDeathDelegate() = 0;
 };
