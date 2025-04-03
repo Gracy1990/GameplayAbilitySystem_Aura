@@ -98,4 +98,7 @@ public:
 	void SetInShockLoop(bool bInLoop);
 
 	virtual FOnDeath GetOnDeathDelegate() = 0;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USkeletalMeshComponent* GetWeapon();
 };
