@@ -36,7 +36,6 @@ public:
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
 	
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
