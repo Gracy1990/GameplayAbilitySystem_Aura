@@ -25,6 +25,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
 	FDamageEffectParams DamageEffectParams;
 
+	UPROPERTY()
+	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Destroyed() override;
@@ -43,8 +46,6 @@ private:
 	float LifeSpan = 15.f;
 
 	bool bHit = false;
-
-
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;
