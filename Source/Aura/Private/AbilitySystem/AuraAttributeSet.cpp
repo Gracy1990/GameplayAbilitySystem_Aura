@@ -218,11 +218,20 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 
 	//InheritanceOwned is deprecated start
-	UTargetTagsGameplayEffectComponent& AssetTagsComponent =
-		Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
-	FInheritedTagContainer InheritedTagContainer;
-	InheritedTagContainer.Added.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
-	AssetTagsComponent.SetAndApplyTargetTagChanges(InheritedTagContainer);
+	const FGameplayTag DebuffTag = GameplayTags.DamageTypesToDebuffs[DamageType];
+
+	FInheritedTagContainer TagContainer = FInheritedTagContainer();
+	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
+	TagContainer.Added.AddTag(DebuffTag);
+	if (DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
+	{
+		// Stunned, so block input
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_CursorTrace);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputHeld);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputPressed);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputReleased);
+	}
+	Component.SetAndApplyTargetTagChanges(TagContainer);
 	//InheritanceOwned is deprecated stop
 	
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
