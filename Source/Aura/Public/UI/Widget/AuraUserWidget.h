@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "GameplayTagContainer.h"
 #include "AuraUserWidget.generated.h"
 
 /**
@@ -19,6 +20,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UObject> WidgetController;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	FGameplayTag InputTag;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
