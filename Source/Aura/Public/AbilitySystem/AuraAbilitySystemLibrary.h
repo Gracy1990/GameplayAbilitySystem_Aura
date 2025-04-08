@@ -23,6 +23,10 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
+	/*
+	* Widget Controller
+	*/
+
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static bool MakeWidgetControllerParams (const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
 
@@ -35,6 +39,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
+
+
+
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
