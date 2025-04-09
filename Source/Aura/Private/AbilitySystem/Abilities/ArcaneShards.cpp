@@ -12,7 +12,7 @@ FString UArcaneShards::GetDescription(int32 Level)
 	{
 		return FString::Printf(TEXT(
 			// Title
-			"<Title>ARCANE SHARDS/>\n\n"
+			"<Title>ARCANE SHARDS</>\n\n"
 
 			// Level
 			"<small>Level: </><Level>%d</>\n"
@@ -70,7 +70,7 @@ FString UArcaneShards::GetNextLevelDescription(int32 Level)
 	return FString::Printf(TEXT(
 		// Title
 		"<Title>ARCANE SHARDS</>\n\n"
-
+	
 		// Level
 		"<small>Level: </><Level>%d</>\n"
 		// ManaCost
