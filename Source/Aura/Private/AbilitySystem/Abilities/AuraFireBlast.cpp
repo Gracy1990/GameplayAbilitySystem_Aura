@@ -20,7 +20,7 @@ FString UAuraFireBlast::GetDescription(int32 Level)
 		"<small>Cooldown: </><Cooldown>%.1f</>\n\n"
 		// Number of Fire Balls
 		"<Default>Launches %d</>"
-		"<Default>fire balls in all directions, each coming back and</>"
+		"<Default>fire balls in all directions, each coming back and </>"
 		"<Default>exploding upon return, causing </>"
 		// Damage
 		"<Damage>%d</><Default> radial fire damage with"
@@ -63,4 +63,9 @@ FString UAuraFireBlast::GetNextLevelDescription(int32 Level)
 		Cooldown,
 		NumFireBalls,
 		ScaledDamage);
+}
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
 }
