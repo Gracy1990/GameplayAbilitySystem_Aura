@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
+#include "Game/LoadScreenSaveGame.h"
 #include "MVVM_LoadSlot.generated.h"
 
 
@@ -25,12 +26,22 @@ public:
 	void InitializeSlot();
 
 	UPROPERTY()
-	FString PlayerName;
-	
-	UPROPERTY()
 	FString LoadSlotName;
 
 	UPROPERTY()
 	FString SlotIndex;
+
+	UPROPERTY()
+	TEnumAsByte<ESaveSlotStatus> SlotStatus;
+
+
+	/** Field Notifies*/
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter)
+	FString PlayerName;
+
+	void SetPlayerName(const FString& InPlayerName);
+
+	FString GetPlayerName() const { return PlayerName; }
 
 };
