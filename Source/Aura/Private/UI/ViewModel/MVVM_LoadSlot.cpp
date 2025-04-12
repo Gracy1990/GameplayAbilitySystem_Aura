@@ -14,3 +14,8 @@ void UMVVM_LoadSlot::SetPlayerName(const FString& InPlayerName)
 	PlayerName = InPlayerName;
 }
 
+void UMVVM_LoadSlot::SetMapName(FString InMapName)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(MapName, InMapName);
+}
+
