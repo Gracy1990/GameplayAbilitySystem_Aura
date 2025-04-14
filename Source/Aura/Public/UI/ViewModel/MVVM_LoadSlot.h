@@ -35,12 +35,11 @@ public:
 	UPROPERTY()
 	TEnumAsByte<ESaveSlotStatus> SlotStatus;
 
-
+	UPROPERTY()
+	FName PlayerStartTag;
 
 	/** Field Notifies*/
-
 	
-
 	void SetPlayerName(const FString& InPlayerName);
 	void SetMapName(FString InMapName);
 	void SetPlayerLevel(int32 InLevel);
@@ -63,4 +62,5 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"));
 	FString LoadSlotName;
+
 };
