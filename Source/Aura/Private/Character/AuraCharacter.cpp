@@ -77,6 +77,15 @@ void AAuraCharacter::LoadProgress()
 			AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
 			AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
 		}
+		if (SaveData->bFirstTimeLoadIn)
+		{
+			InitializeDefaultAttributes();
+			AddCharacterAbilities();
+		}
+		else
+		{
+
+		}
 	}
 }
 void AAuraCharacter::OnRep_PlayerState()
