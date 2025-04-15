@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerStart.h"
 #include "GameFramework/DefaultPawn.h"
+#include "Interaction/SaveInterface.h"
 #include "Checkpoint.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart
+class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface
 {
 	GENERATED_BODY()
 public:

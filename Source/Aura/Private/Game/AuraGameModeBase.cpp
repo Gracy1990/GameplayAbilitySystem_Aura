@@ -8,6 +8,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/PlayerStart.h"
 #include "Game/AuraGameInstance.h"
+#include "EngineUtils.h"
 
 
 
@@ -72,23 +73,29 @@ void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
 	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
 }
 
-void AAuraGameModeBase::SaveWorldState()
+void AAuraGameModeBase::SaveWorldState(UWorld* World)
 {
-	ULoadScreenSaveGame* SaveObject = RetrieveInGameSaveData();
-	if (!IsValid(SaveObject)) return;
-	SaveObject->SaveActors.Append(SaveActors);
-	SaveInGameProgressData(SaveObject);
-}
+	FString WorldName = World->GetMapName();
+	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);
 
-void AAuraGameModeBase::LoadWorldState()
-{
-	ULoadScreenSaveGame* SaveObject = RetrieveInGameSaveData();
-	if (!IsValid(SaveObject)) return;
-	for (AActor* Actor : SaveObject->SaveActors)
+	UAuraGameInstance* AuraGI = Cast<UAuraGameInstance>(GetGameInstance());
+	check(AuraGI);
+
+	if (ULoadScreenSaveGame* SaveGame = GetSaveSlotData(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex))
 	{
-		if (Actor->Implements<USaveInterface>())
+		if (!SaveGame->HasMap(WorldName))
 		{
-			ISaveInterface::Execute_Load(Actor);
+			FSavedMap NewSavedMap;
+			NewSavedMap.MapAssetName = WorldName;
+			SaveGame->SavedMaps.Add(NewSavedMap);
+		}
+
+		FSavedMap SavedMap = SaveGame->GetSavedMapWithMapName(WorldName);
+		SavedMap.SavedActors.Empty(); // clear it out, will fill it in with "actors"
+
+		for (FActorIterator It(World); It; ++It)
+		{
+	 AActor* Actor = *It;
 		}
 	}
 }
