@@ -29,7 +29,8 @@ public:
 	/** Highlight Interface */
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
-	/** end Enemy Interface */
+	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
+	/** end Highlight Interface */
 
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel_Implementation() override;
