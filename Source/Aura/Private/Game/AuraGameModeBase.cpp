@@ -11,6 +11,8 @@
 
 
 
+
+
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
 	if (UGameplayStatics::DoesSaveGameExist(LoadSlot->GetLoadSlotName(), SlotIndex))
@@ -49,7 +51,6 @@ void AAuraGameModeBase::DeleteSlot(const FString& SlotName, int32 SlotIndex)
 		UGameplayStatics::DeleteGameInSlot(SlotName, SlotIndex);
 	}
 }
-
 ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
 {
 	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance());
@@ -58,7 +59,6 @@ ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
 	const int32 InGameLoadSLotIndex = AuraGameInstance->LoadSlotIndex;
 
 	return GetSaveSlotData(InGameLoadSlotName, InGameLoadSLotIndex);
-
 }
 
 void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
@@ -70,7 +70,27 @@ void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
 	AuraGameInstance->PlayerStartTag = SaveObject->PlayerStartTag;
 
 	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
+}
 
+void AAuraGameModeBase::SaveWorldState()
+{
+	ULoadScreenSaveGame* SaveObject = RetrieveInGameSaveData();
+	if (!IsValid(SaveObject)) return;
+	SaveObject->SaveActors.Append(SaveActors);
+	SaveInGameProgressData(SaveObject);
+}
+
+void AAuraGameModeBase::LoadWorldState()
+{
+	ULoadScreenSaveGame* SaveObject = RetrieveInGameSaveData();
+	if (!IsValid(SaveObject)) return;
+	for (AActor* Actor : SaveObject->SaveActors)
+	{
+		if (Actor->Implements<USaveInterface>())
+		{
+			ISaveInterface::Execute_Load(Actor);
+		}
+	}
 }
 
 void AAuraGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
