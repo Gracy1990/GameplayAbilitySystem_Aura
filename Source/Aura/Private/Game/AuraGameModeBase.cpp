@@ -3,7 +3,6 @@
 
 #include "Game/AuraGameModeBase.h"
 
-#include "Aura.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "Game/LoadScreenSaveGame.h"
@@ -139,6 +138,7 @@ void AAuraGameModeBase::LoadWorldState(UWorld* World) const
 		ULoadScreenSaveGame* SaveGame = Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(AuraGI->LoadSlotName, AuraGI->LoadSlotIndex));
 		if (SaveGame == nullptr)
 		{
+			// UE_LOG(LogAura, Error, TEXT("Failed to load slot"));
 			return;
 		}
 
