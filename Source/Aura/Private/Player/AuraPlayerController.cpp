@@ -18,6 +18,7 @@
 #include "Actor/MagicCircle.h"
 #include "Components/DecalComponent.h"
 #include "Aura/Aura.h"
+#include "Interaction/HighlightInterface.h"
 
 
 
