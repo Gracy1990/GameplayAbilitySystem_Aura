@@ -1,27 +1,25 @@
 // Copyright Maniform Studio
 
 #include "Character/AuraCharacter.h"
+
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 #include "NiagaraComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
-#include "UI/HUD/AuraHUD.h"
-#include "AuraGameplayTags.h"
-#include "AbilitySystem/DebuffNiagaraComponent.h"
-#include "Game/AuraGameModeBase.h"
-#include "Kismet/GameplayStatics.h"
-#include "Game/AuraGameInstance.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
-#include "AbilitySystem/Data/AbilityInfo.h" // This should contain the UAbilityInfo class
-
-
-
-
+#include "AbilitySystem/Data/AbilityInfo.h"
+#include "AbilitySystem/DebuffNiagaraComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Game/AuraGameModeBase.h"
+#include "GameFramework\/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "UI/HUD/AuraHUD.h"
 
 
 AAuraCharacter::AAuraCharacter()
@@ -58,6 +56,11 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
 	LoadProgress();
+
+	if (AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+	{
+		AuraGameMode->LoadWorldState(GetWorld());
+	}
 }
 
 void AAuraCharacter::LoadProgress()

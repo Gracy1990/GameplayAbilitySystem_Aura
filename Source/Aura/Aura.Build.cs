@@ -14,6 +14,8 @@ public class Aura : ModuleRules
         
 		PublicIncludePaths.AddRange(new string[] { "Aura/Public/UI/Widget" });
 
+        PublicIncludePaths.AddRange(new string[] { "Aura" });
+
         PublicIncludePaths.AddRange(new string[]
 {
             "Aura/Public",
