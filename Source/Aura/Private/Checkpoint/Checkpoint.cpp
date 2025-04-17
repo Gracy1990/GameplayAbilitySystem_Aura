@@ -42,13 +42,15 @@ void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 {
 	if (OtherActor->Implements<UPlayerInterface>())
 	{
-		IPlayerInterface::Execute_SaveProgress(OtherActor, PlayerStartTag);
-		HandleGlowEffects();
+		bReached = true;
 
 		if (AAuraGameModeBase* AuraGM = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
 		{
 			AuraGM->SaveWorldState(GetWorld());
 		}
+
+		IPlayerInterface::Execute_SaveProgress(OtherActor, PlayerStartTag);
+		HandleGlowEffects();
 	}
 }
 

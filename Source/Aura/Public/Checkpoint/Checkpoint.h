@@ -25,7 +25,6 @@ public:
 	/* Save Interface */
 	virtual bool ShouldLoadTransform_Implementation() override { return false; };
 	virtual void LoadActor_Implementation() override;
-
 	/* end Save Interface */
 
 	UPROPERTY(BlueprintReadWrite, SaveGame)
@@ -63,7 +62,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
 
-private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 	
