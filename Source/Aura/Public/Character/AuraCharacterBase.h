@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
@@ -11,7 +10,6 @@
 #include "NiagaraComponent.h"
 #include "Passive/PassiveNiagaraComponent.h"
 #include "AuraCharacterBase.generated.h"
-
 
 
 class UAbilitySystemComponent;
@@ -37,7 +35,6 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
-	
 	/** Combat Interface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
@@ -82,6 +79,8 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Burned();
+
+	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 
 protected:
 	virtual void BeginPlay() override;
