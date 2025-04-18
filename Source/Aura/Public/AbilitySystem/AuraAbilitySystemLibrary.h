@@ -12,6 +12,7 @@ class USpellMenuWidgetController;
 class UAbilitySystemComponent;
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
+class ULootTiers;
 struct FWidgetControllerParams;
 
 /**
@@ -41,7 +42,7 @@ public:
 	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 	/*
-	* Ability System ClassDefaults
+	* Ability System Class Defaults
 	*/
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
@@ -59,6 +60,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (DefaultToSelf = "WorldContextObject"))
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
+
+	/*
+	* Effect Context Getters
+	*/
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);

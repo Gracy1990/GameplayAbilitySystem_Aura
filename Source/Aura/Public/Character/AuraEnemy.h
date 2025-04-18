@@ -75,4 +75,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
+
 };
