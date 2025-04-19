@@ -36,6 +36,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<FLootItem> GetLootItems();
 
-	UPROPERTY(EditDefaultsOnly, Category = "LootTiers|Spawning")
+	UPROPERTY(EditAnywhere, Category = "LootTiers|Spawning")
 	TArray<FLootItem> LootItems;
 };

@@ -9,7 +9,7 @@ TArray<FLootItem> ULootTiers::GetLootItems()
 
 	for (FLootItem& Item : LootItems)
 	{
-		for (int32 i = 0; 1 < Item.MaxNumberToSpawn; ++i)
+		for (int32 i = 0; i < Item.MaxNumberToSpawn; ++i)
 		{
 			if (FMath::RandRange(1.f, 100.f) < Item.ChanceToSpawn)
 			{
